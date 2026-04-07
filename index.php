@@ -1,3 +1,10 @@
+<!-- Conectar o arquivo Header.php -->
+
+<?php
+include "includes/header.php";
+include "includes/menu.php";
+include "includes/footer.php";
+?>
 
 <header class="container mt-4">
   <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
@@ -9,7 +16,7 @@
         <img src="assets/img/banner2.jpg" class="d-block w-100 banner-img" alt="Banner 2">
       </div>
       <div class="carousel-item">
-        <img src="assets/img/banner3.jpg" class="d-block w-100 banner-img" alt="Banner 3">
+        <img src="assets/img/foto10.jpg" class="d-block w-100 banner-img" alt="Banner 3">
       </div>
     </div>
 
