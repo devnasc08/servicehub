@@ -3,7 +3,6 @@
 <?php
 include "includes/header.php";
 include "includes/menu.php";
-include "includes/footer.php";
 ?>
 
 <header class="container mt-4">
@@ -16,7 +15,7 @@ include "includes/footer.php";
         <img src="assets/img/banner2.jpg" class="d-block w-100 banner-img" alt="Banner 2">
       </div>
       <div class="carousel-item">
-        <img src="assets/img/foto10.jpg" class="d-block w-100 banner-img" alt="Banner 3">
+        <img src="assets/img/banner3.jpg" class="d-block w-100 banner-img" alt="Banner 3">
       </div>
     </div>
 
@@ -106,3 +105,7 @@ include "includes/footer.php";
   </div>
 
 </main>
+
+<?php
+include "includes/footer.php";
+?>
