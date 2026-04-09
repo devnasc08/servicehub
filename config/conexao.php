@@ -2,12 +2,12 @@
 $host = "10.91.47.129";
 $db = "servicehubdb01";
 $user = "root";
-$pass = "P@ssw0rd"
+$pass = "P@ssw0rd";
 
 try{
-    $pdo = new PDO("mysql-host=$host;dbname$db;charset=utf8",$user,$pass)
-}catch(PDOException $erro){
-    die("erro na conexão:".$erro->getMessage())
+    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8",$user,$pass);
+}catch(PDOException $e){
+    die("Erro na conexão: ".$e->getMessage());
 }
 
 ?>
