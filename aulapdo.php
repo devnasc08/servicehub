@@ -2,26 +2,20 @@
 //include_onde: conexão com o script
 include_once "config/conexao.php";
 
-$sql = "select * from servicos";
+$sql = "select * from servicos where id = :id";
 $cmd = $pdo->prepare($sql);
-
-$cmd->execute();
-
+$cmd->execute(["id"=>$id]);
 $servicos = $cmd->fetchAll(PDO::FETCH_ASSOC); // Me retornará uma matriz associativa
 //var_dump($servicos); // Impressão na tela
 
 $sql = "select * from clientes";
 $cmd = $pdo->prepare($sql);
-
 $cmd->execute();
-
 $clientes = $cmd->fetchAll(PDO::FETCH_ASSOC);
 
 $sql = "select * from usuarios";
 $cmd = $pdo->prepare($sql);
-
 $cmd->execute();
-
 $usuarios = $cmd->fetchAll(PDO::FETCH_ASSOC);
 
 
