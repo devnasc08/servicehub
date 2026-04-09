@@ -109,4 +109,10 @@ $usuarios = $cmd->fetchAll(PDO::FETCH_ASSOC);
             <?php endforeach; ?>
             </tr>
     </table>
+
+            <form action="resform.php" method="post">
+                <input type="text" name="txtNome" >
+                <button type="submit">Enviar</button>
+            </form>
+
 </body>
