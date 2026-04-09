@@ -111,7 +111,7 @@ $usuarios = $cmd->fetchAll(PDO::FETCH_ASSOC);
     </table>
 
             <form action="resform.php" method="post">
-                <input type="text" name="txtNome" >
+                <input type="text" name="txtId" id="" >
                 <button type="submit">Enviar</button>
             </form>
 
