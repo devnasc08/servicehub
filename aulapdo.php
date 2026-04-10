@@ -32,6 +32,12 @@ $usuarios = $cmd->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
+
+    <form action="resform.php" method="post">
+        <input type="text" name="txtid" id="" >
+        <button type="submit">Enviar</button>
+    </form>
+
     <h2>Lista de Serviços</h2>
 
     <table border=1 collpadding=10>
@@ -110,9 +116,8 @@ $usuarios = $cmd->fetchAll(PDO::FETCH_ASSOC);
             </tr>
     </table>
 
-            <form action="resform.php" method="post">
-                <input type="text" name="txtId" id="" >
-                <button type="submit">Enviar</button>
-            </form>
+<!-- ============================================================================================ -->
+
+
 
 </body>
