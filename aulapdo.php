@@ -33,10 +33,16 @@ $usuarios = $cmd->fetchAll(PDO::FETCH_ASSOC);
 
 <body>
 
+        <!-- ==== FORMULÁRIO  ==== -->
+
     <form action="resform.php" method="post">
         <input type="text" name="txtid" id="" >
+         <!-- <input type="password" name="txtsenha" id="" > -->
         <button type="submit">Enviar</button>
     </form>
+
+    <!-- ============================================================================================= -->
+
 
     <h2>Lista de Serviços</h2>
 
