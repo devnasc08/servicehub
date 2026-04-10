@@ -3,9 +3,19 @@
 <?php
 require_once "config/conexao.php";
 
+
+// ===== Serviços =====
 $cmd = $pdo->prepare("SELECT * FROM servicos WHERE descontinuado=b'0'");
 $cmd ->execute();
 $serv = $cmd->fetchAll(PDO::FETCH_ASSOC);
+
+// ===== Clientes =====
+$sql = "select nome from usuarios where tipo = 2 and ativo = 1 order by id asc limit 4";
+$cmd = $pdo->prepare($sql);
+$cmd ->execute();
+$clientes = $cmd->fetchAll(PDO::FETCH_ASSOC);
+
+
 
 include "includes/menu.php";
 include "includes/header.php";
@@ -97,13 +107,14 @@ include "includes/header.php";
     </div>
   </section>
 
-  <section id="clientes" class="mt-5">
+  <section id="clientes" class="mt-5 bg-light pb-5">
     <h2 class="text-center mb-4">Principais Clientes</h2>
     <div class="row text-center">
-      <div class="col-md-3">Sublime Grace Personalizados</div>
-      <div class="col-md-3">Casa Dossica</div>
-      <div class="col-md-3">Tilsp Traduções e Interprtações</div>
-      <div class="col-md-3">Softkleen Informática</div>
+      <?php foreach($clientes as $cliente):?>
+        <div class="col-md-3"><?= $cliente['nome'] ?></div>
+      <?php endforeach;?>
+
+
     </div>
   </section>
 
