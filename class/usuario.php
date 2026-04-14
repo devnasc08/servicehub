@@ -4,7 +4,7 @@ include_once "config/conexao.php";
 
 
 // declarar classe
-class usuario
+class Usuario
 {
     //atributos
     private $id;
@@ -107,10 +107,10 @@ class usuario
 
 
     //metodo (functions) - Representar RFs
-    public function efetuarLogin(string $email, string $senha)/*Espera Email e Senha*/: array
-    {
+    public static function efetuarLogin(string $email, string $senha)/*Espera Email e Senha*/:array{
         $sql = "SELECT * FROM usuarios WHERE email = :email AND ativo = b'1'";
-        $cmd = $this->pdo->prepare($sql); //Atributo da classe usuário (private $pdo) Linha 16
+        $cmd = obterPdo()->prepare($sql);
+        //$cmd = $this->pdo->prepare($sql); //Atributo da classe usuário (private $pdo) Linha 16
         $cmd->bindValue(":email", $email);
         $cmd->execute();
         $dados = $cmd->fetch(PDO::FETCH_ASSOC);

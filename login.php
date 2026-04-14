@@ -1,8 +1,44 @@
-<?php 
+<?php
+session_start();  //
+
 include "includes/menu.php";
+require_once "class/usuario.php";
+//var_dump(usuario::efetuarLogin('admin@servicehub.com', 'admin123'));
+$msg = "";
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
+  $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
+  $senha = $_POST['senha'] ?? null; //operado de coalecência
+  if (!$email || $senha) {  //   || = OU
+    $msg = "Preencha os dados corretamente";
+  }
+  
+  $usuario = Usuario::efetuarLogin($email, $senha);
+}
+
+if (count($usuario) > 0) {
+  $_SESSION['usuario_id'] = $usuario['id'];
+      $_SESSION['nome'] = $usuario['nome'];
+          $_SESSION['tipo'] = $usuario['tipo'];
+
+if($usuario['primeiro_login'] == 1){
+  header('location: primeiro_login.php');
+exit;
+
+if($usuario['tipo']==1){
+header('location:admin_dashboard.php');
+}
+else{
+  header('location: cliente_dashboard.php');
+  }
+ }
+}
+
 ?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <title>Login</title>
@@ -10,29 +46,30 @@ include "includes/menu.php";
 </head>
 
 <body class="bg-light">
-<div class="container mt-5">
-  <div class="card shadow p-4 col-md-5 mx-auto">
-    <h3 class="text-center">Área Restrita</h3>
+  <div class="container mt-5">
+    <div class="card shadow p-4 col-md-5 mx-auto">
+      <h3 class="text-center">Área Restrita</h3>
 
 
-    <form method="POST">
-      <div class="mb-3">
-        <label>Email</label>
-        <input type="email" name="email" class="form-control" required>
-      </div>
+      <form method="POST">
+        <div class="mb-3">
+          <label>Email</label>
+          <input type="email" name="email" class="form-control" required>
+        </div>
 
-      <div class="mb-3">
-        <label>Senha</label>
-        <input type="password" name="senha" class="form-control" required>
-      </div>
+        <div class="mb-3">
+          <label>Senha</label>
+          <input type="password" name="senha" class="form-control" required>
+        </div>
 
-      <button class="btn btn-dark w-100">Entrar</button>
-    </form>
+        <button class="btn btn-dark w-100">Entrar</button>
+      </form>
 
-    <p class="text-center mt-3">
-      <a href="index.php">Voltar ao site</a>
-    </p>
+      <p class="text-center mt-3">
+        <a href="index.php">Voltar ao site</a>
+      </p>
+    </div>
   </div>
-</div>
 </body>
+
 </html>
