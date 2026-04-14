@@ -1,10 +1,11 @@
-<?php 
+<?php
 // incluir conexão
 include_once "config/conexao.php";
 
 
 // declarar classe
-class usuario {
+class usuario
+{
     //atributos
     private $id;
     private $nome;
@@ -22,80 +23,101 @@ class usuario {
     //construtor
     public function __construct()
     {
-        $this -> pdo = obterPdo(); //quando utilizar    
+        $this->pdo = obterPdo(); //quando utilizar    
     }
-    
-    
+
+
     //getters / setters
 
+    // GET = pegar valor
+    // SET = definir valor
+
     //ID
-    public function getId(){
+    public function getId()
+    {
         return $this->id;
-    } 
+    }
     //Nome
-    public function getNome (){
+    public function getNome()
+    {
         return $this->nome;
     }
 
-    public function setNome (string $nome){
+    public function setNome(string $nome)
+    {
         $this->nome = $nome;
     }
 
     //Email
-     public function getEmail(){
+    public function getEmail()
+    {
         return $this->email;
-    } 
+    }
 
-    public function setEmail (string $email){
+    public function setEmail(string $email)
+    {
         $this->email = $email;
     }
 
     //Senha
-     public function getSenha(){
+    public function getSenha()
+    {
         return $this->senha;
-    } 
+    }
 
-    public function setSenha (string $senha){  //Risco de Segurança
+    public function setSenha(string $senha)
+    {  //Risco de Segurança
         $this->senha = $senha;
     }
 
     //Tipo
-    public function getTipo(){
+    public function getTipo()
+    {
         return $this->tipo;
-    } 
+    }
 
-    public function setTipo (string $tipo){
+    public function setTipo(string $tipo)
+    {
         $this->tipo = $tipo;
-    }    
+    }
 
     //Ativo
-    public function getAtivo(){
+    public function getAtivo()
+    {
         return $this->ativo;
-    } 
+    }
 
-    public function setAtivo (string $ativo){
+    public function setAtivo(string $ativo)
+    {
         $this->ativo = $ativo;
     }
 
     //Primeiro Login
-    public function getPrimeiroLogin(){
+    public function getPrimeiroLogin()
+    {
         return $this->primeiro_login;
-    } 
+    }
 
-    public function setPrimeiroLogin (string $primeiro_login){
-        $this->ativo = $primeiro_login;
+    public function setPrimeiroLogin(string $primeiro_login)
+    {
+        $this->primeiro_login = $primeiro_login;
     }
 
 
 
 
     //metodo (functions) - Representar RFs
-    
-    
-    
+    public function efetuarLogin(string $email, string $senha)/*Espera Email e Senha*/: array
+    {
+        $sql = "SELECT * FROM usuarios WHERE email = :email AND ativo = b'1'";
+        $cmd = $this->pdo->prepare($sql); //Atributo da classe usuário (private $pdo) Linha 16
+        $cmd->bindValue(":email", $email);
+        $cmd->execute();
+        $dados = $cmd->fetch(PDO::FETCH_ASSOC);
+        if ($dados && password_verify($senha, $dados['senha'])) {
+            return $dados;
+        } else {
+            return $dados = [];  //ou somente []
+        }
+    }
 }
-
-
-
-
-?>
