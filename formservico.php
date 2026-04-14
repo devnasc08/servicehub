@@ -10,9 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $descricao = $_POST['txtdescricao'];
     $preco = $_POST['txtpreco'];
 
+
     // ==== Inserindo Serviços ==== 
-    $sql = "insert servicos (nome, descricao, preco) values(:nome, :descricao, :preco)";
-    $cmd = $pdo->prepare($sql);
+    $sql = "INSERT servicos (nome, descricao, preco) VALUES(:nome, :descricao, :preco)";
+    $cmd = obterPdo()->prepare($sql);
     $cmd->execute([':nome' => $nome, ':descricao' => $descricao, ':preco' => $preco]);
     $id = $pdo->lastInsertId();     //Armazena o ID do serviço que acabou de ser inserido
 
@@ -28,8 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $telefone = $_POST['telAluno'];
 
     $sql = "INSERT alunos (nome, data_nasc, email, telefone) VALUES(:nome, :data_nasc, :email, :telefone)";
-    $cmd = $pdo->prepare($sql);
-    $cmd->execute(['nome' => $name, 'data_nasc' => $data_nasc, 'email' => $email, 'telefone' => $telefone]);
+    $cmd = obterPdo()->prepare($sql);
+    $cmd->execute([':nome' => $name, ':data_nasc' => $data_nasc, ':email' => $email, ':telefone' => $telefone]);
 }
 ?>
 
