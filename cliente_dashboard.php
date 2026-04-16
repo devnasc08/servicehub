@@ -1,4 +1,12 @@
+<?php 
+session_start();
+require_once "config/conexao.php";
 
+// ! Retorna Verdadeiro se for Falso || Retorna Falso se for Verdadeiro
+if(!isset($_SESSION['usuario_id']) || $_SESSION['tipo']!=2)
+  header("location: login.php");
+
+?>
 
 <main class="container mt-5">
   <h2>Bem-vindo,</h2>
@@ -27,4 +35,5 @@
         </tr>
     </tbody>
   </table>
+<?php include "includes/footer.php"?>
 </main>

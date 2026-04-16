@@ -1,6 +1,6 @@
 <?php 
 session_start();
-if(isset($_SESSION['ususario_id']) || $_SESSION['tipo'] !=1)){
+if(isset($_SESSION['ususario_id']) || $_SESSION['tipo'] !=1){
 header('location: login.php');
 exit;
 }
@@ -10,7 +10,7 @@ include "include/menu.php";
 
 <main class="container mt-5">
   <h2>Painel Administrativo</h2>
-  <p>Bem-Vindo <?php $_SESSION['nome']?></p>
+  <p>Bem-Vindo, <strong><?= $_SESSION['nome']?></p>
 
   <a href="admin_solicitacoes.php" class="btn btn-primary">Solicitações</a>
 <a href="admin_servicos.php" class="btn btn-warning">Serviços</a>
