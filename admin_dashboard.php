@@ -1,11 +1,11 @@
 <?php 
 session_start();
 if(isset($_SESSION['ususario_id']) || $_SESSION['tipo'] !=1){
-header('location: login.php');
+  header('location: login.php');
 exit;
 }
-include "include/header.php";
-include "include/menu.php";
+include "includes/header.php";
+include "includes/menu.php";
 ?>
 
 <main class="container mt-5">
