@@ -2,7 +2,13 @@
 
 // Inicia a Sessão
 // A sessão permite guardar dados do usuários logado | entre uma página e outra 
-session_start();  //
+session_start();  //Iniciar a sessão ou atualizar uma sessão aberta
+
+// Envia se já estiver logado
+if(isset($_SESSION['usuario_id'])){
+  $destino = ($_SESSION['tipo']==1)?"admin_dashboard":"cliente_dashboard"; //estrutura de if ternário 
+}
+
 
 // Importando dependências
 include "includes/menu.php";
@@ -14,45 +20,38 @@ $msg = "";
 
 // Verifica se o form foi enviado | Só executa a lógica de login quando clicar em "entrar"
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
-
   // Validar email | filter_input filtra que o email seja válido
   $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
-
   // Pegar senha 
-  $senha = $_POST['senha'] ?? null; //operado de coalecência | se não existir, recebe null
- 
+  $senha = $_POST["senha"] ?? null; //operado de coalecência | se não existir, recebe null
  // VALIDAR DADOS
  //se email inválido ou senha vazia
   if (!$email || !$senha) {  //   || = OU
     $msg = "Preencha os dados corretamente";
-  }
- else{
+}
   
   // Tentar Login | chama a RN da class usuario
   $usuario = Usuario::efetuarLogin($email, $senha);
- }
-}
-
 // Verifica Login
 if (count($usuario) > 0) {
   // Salva dados na sessão
   $_SESSION['usuario_id'] = $usuario['id'];
-      $_SESSION['nome'] = $usuario['nome'];
-          $_SESSION['tipo'] = $usuario['tipo'];
+  $_SESSION['nome'] = $usuario['nome'];
+  $_SESSION['tipo'] = $usuario['tipo'];
 
 // Verificar Primeiro Login | se for primeiro acesso, obriga trocar de senha
 if($usuario['primeiro_login'] == 1){
   header('location: primeiro_login.php');
 exit;
+}
 
 // Passo 3: Redirecionar pelo tipo de usuário
 if($usuario['tipo']==1){
-header('location:admin_dashboard.php');
-}
-else{
+  header('location:admin_dashboard.php');
+}else{
   header('location: cliente_dashboard.php');
+    }
   }
- }
 }
 
 ?>
