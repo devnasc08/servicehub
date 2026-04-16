@@ -143,4 +143,25 @@ class Usuario
             return $dados = [];  //ou somente []
         }
     }
+    // Inserir 
+    public function inserir ():bool{
+
+        $sql = "INSERT usuarios (nome, email, senha, tipo) VALUES (:nome, :email, :senha, :tipo)"; // : Váriavel SQL
+        $cmd=$this->pdo->prepare($sql);
+        $cmd->bindValue(":nome",$this->nome);
+        $cmd->bindValue(":email",$this->email);
+        $cmd->bindValue(":senha",password_hash($this->senha,PASSWORD_DEFAULT)); 
+        $cmd->bindValue(":tipo",$this->tipo);
+        if($cmd->execute()){
+            $this->id = $this->pdo->lastInsertId();
+            return true;
+        }
+        
+        
+        return false;
+
+
+    }
+
+
 }
