@@ -42,6 +42,12 @@ class Usuario
     {
         return $this->id;
     }
+
+        public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
     //Nome
     public function getNome()
     {
@@ -114,7 +120,8 @@ class Usuario
 
 
     // MÉTODO DE LOGIN (RN) (functions) - Representar RFs
-    public static function efetuarLogin(string $email, string $senha):array{
+    public static function efetuarLogin(string $email, string $senha): array
+    {
         //Busca usuário pelo email | A senha NÃO entra no sql | primeiro busca usuário 
         $sql = "SELECT * FROM usuarios WHERE email = :email AND ativo = b'1'";
         // Prepara a consulta para segurança 
@@ -133,35 +140,61 @@ class Usuario
 
         //password verify compara a senha digitada com a senha criptografada no banco
         if ($dados && password_verify($senha, $dados['senha'])) {
-            
+
             // retorna sucesso + dados
             return $dados;
-        } 
-        
+        }
+
         //login falhou | usuário não existe ou senha inválida
         else {
             return $dados = [];  //ou somente []
         }
     }
     // Inserir 
-    public function inserir ():bool{
+    public function inserir(): bool
+    {
 
         $sql = "INSERT usuarios (nome, email, senha, tipo) VALUES (:nome, :email, :senha, :tipo)"; // : Váriavel SQL
-        $cmd=$this->pdo->prepare($sql);
-        $cmd->bindValue(":nome",$this->nome);
-        $cmd->bindValue(":email",$this->email);
-        $cmd->bindValue(":senha",password_hash($this->senha,PASSWORD_DEFAULT)); 
-        $cmd->bindValue(":tipo",$this->tipo);
-        if($cmd->execute()){
+        $cmd = $this->pdo->prepare($sql);
+        $cmd->bindValue(":nome", $this->nome);
+        $cmd->bindValue(":email", $this->email);
+        $cmd->bindValue(":senha", password_hash($this->senha, PASSWORD_DEFAULT));
+        $cmd->bindValue(":tipo", $this->tipo);
+        if ($cmd->execute()) {
             $this->id = $this->pdo->lastInsertId();
             return true;
         }
-        
-        
+
+
         return false;
-
-
     }
 
+    // Listar 
+    public static function listar(): array
+    {
+        $cmd = obterPdo()->query("SELECT * FROM usuarios ORDER BY id desc");
+        return $cmd->fetchAll(PDO::FETCH_ASSOC);
+    }
 
+    // Buscar por ID
+    public function buscarPorId(int $id):bool
+    {
+        $sql = "SELECT * FROM usuarios WHERE id=:id";
+        $cmd = obterPdo()->prepare($sql);
+        $cmd->bindValue(":id",$id);
+        $cmd->execute();
+        if($cmd->rowCount()>0){
+            $dados = $cmd->fetch(PDO::FETCH_ASSOC);
+        $this->setId($dados['id']);
+        $this->setNome($dados['nome']);
+        $this->setEmail($dados['email']);
+        $this->setSenha($dados['senha']);
+        $this->setTipo($dados['tipo']);
+        $this->setAtivo($dados['ativo']);
+        $this->setPrimeiroLogin($dados['primeiro_login']);
+            return true;
+    
+    }
+        return false;
+    }
 }
