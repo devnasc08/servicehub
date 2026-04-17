@@ -191,10 +191,38 @@ class Usuario
         $this->setSenha($dados['senha']);
         $this->setTipo($dados['tipo']);
         $this->setAtivo($dados['ativo']);
-        $this->setPrimeiroLogin($dados['primeiro_login']);
+        $this->primeiro_login = $dados['primeiro_login'];
             return true;
     
     }
         return false;
     }
+
+    //Atualizar
+    public function atualizar():bool{
+        
+        if(!$this->id)return false;
+        $sql = "UPDATE usuarios SET nome = :nome, email = :email, tipo = :tipo, ativo = :ativo, primeiro_login = :primeiro_login WHERE id = :id";
+        $cmd = $this->pdo->prepare($sql);
+        $cmd->bindValue(":nome", $this->nome);
+        $cmd->bindValue(":email", $this->email);
+        $cmd->bindValue(":senha", $this->senha);
+        $cmd->bindValue(":tipo", $this->tipo);
+        $cmd->bindValue(":ativo", $this->ativo, PDO::PARAM_BOOL);
+        $cmd->bindValue(":primeiro_login", $this->primeiro_login,PDO::PARAM_BOOL);
+        return $cmd->execute();
+    }
+
+    //Atualizar Senha (Já deve vir com password_hash)
+    public function atualizarSenha (string $senhaHash):bool{
+        if(!$this->id) return false;
+
+        $sql = "UPDATE usuarios SET senha = :senha WHERE id = :id";
+        $cmd = $this->pdo->prepare($sql);
+        $cmd->bindValue(":senha", $senhaHash,PDO::PARAM_INT);
+        $cmd->bindValue(":id",$this->id);
+
+        return $cmd->execute();
+    }
+
 }

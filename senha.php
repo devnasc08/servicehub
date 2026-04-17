@@ -15,24 +15,45 @@ require_once "class/usuario.php";
 //     // }
 //     // echo "<prev>";
 //     // print_r($usuario->listar());
-    
+
+/*
+ echo "<prev>";
+ foreach(Usuario::listar() as $user){
+ echo $user ['id']."-".$user['nome']."<br>";
+}
 
 
-     echo "<prev>";
-     foreach(Usuario::listar() as $user){
-     echo $user ['id']."-".$user['nome']."<br>";
-     }
 
-
-
-$usuario = new Usuario();
 if($usuario->buscarPorId(62)){
     echo"<prev>";
     echo $usuario->getId()."-".$usuario->getNome()."<br>";
+    }
+    else{
+        echo "Usuário não encontrado";
 }
-else{
-    echo "Usuário não encontrado";
-}
+*/
+
+// if($usuario->buscarPorId(62)){
+    // echo "<pre>";
+    // print_r($usuario);
+    // }
+    // else{
+        //     echo "Usuário não cadastrado";
+        //     die();
+        // }
+        // $usuario->setNome("Milhonário Santos");
+        
+        // if ($usuario->atualizar())
+        //     echo "<hr>";
+        //     echo "<pre>";
+        //     print_r($usuario);
+        
+    $usuario = new Usuario();
+    
+    $usuario->buscarPorId(61);
+    if($usuario->atualizarSenha(password_hash("123456",PASSWORD_DEFAULT))){
+        
+    }
 
 
 
