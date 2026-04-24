@@ -69,7 +69,7 @@ class Cliente
         return $this->telefone; 
     }
 
-        public function setTelefone(int $telefone)
+        public function setTelefone(string $telefone)
         {
             $this->telefone =$telefone;
         }
@@ -82,7 +82,7 @@ class Cliente
 
         public function setCpf(int $cpf)
         {
-            $this->cpf =$cpf;
+            $this->cpf = $cpf;
         }
 
 
@@ -161,13 +161,10 @@ public function buscarPorUsuario(int $usuario_id): bool
     $this->setTelefone($cmd['telefone']);
     $this->setCpf($cmd['cpf']);
     return true;
-    }
+        }
     return false;
-}
+    }
 // ======================================================================================
-
-
-
 }
 
 ?>
