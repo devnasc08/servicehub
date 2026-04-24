@@ -41,6 +41,13 @@ class Cliente
     
 // ======================================================================================
 
+/*
+SET -> DEFINE o valor
+
+GET -> RETORNA o valor
+*/
+
+
     // ID
     public function getId()
     {
