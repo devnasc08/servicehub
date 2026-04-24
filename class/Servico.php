@@ -16,11 +16,13 @@ descontinuado
 -->
 
 <?php 
+include_once "config/conexao.php";
 class Servico
 {
     private $id;
     private $nome;
     private $descricao;
+    private $preco;
     private $descontinuado;
     private $pdo;
 
@@ -71,30 +73,42 @@ public function setDescontinuado(string $descontinuado)
     $this->descontinuado = $descontinuado;
 }
 
+public function getPreco()
+{
+    return $this->preco;
+}
+
+public function setPreco(int $preco)
+{
+    $this->preco = $preco;
+}
+
 // ======================================================================================
 
 // INSERIR
 public function inserir(): bool
 {
-    $sql = "INSERT servico (nome, descricao, descontinuado) VALUES (:nome, :descricao, :descontinuado)";
+    $sql = "INSERT servicos (nome, descricao, preco) VALUES (:nome, :descricao, :preco)";
     $cmd = $this->pdo->prepare($sql);
     $cmd->bindValue(":nome", $this->nome);
     $cmd->bindValue(":descricao", $this->descricao);
-    $cmd->bindValue(":descontinuado", $this->descontinuado);
+    $cmd->bindValue(":preco", $this->preco);
     if ($cmd->execute()){
         $this->id = $this->pdo->lastInsertId();
         return true;
-    }
-    return false;
-}
+        }
+        return false;
+        }
 
-public function atualizar(): bool {
-    if(!$this->id) return false;
-    $sql = "UPDATE servico SET nome = :nome, descricao = :descricao, descontinuado = :descontinuado";
-    $cmd = $this->pdo->prepare($sql);
-    $cmd->bindValue(":nome", $this->nome);
+        
+        public function atualizar(): bool {
+            if(!$this->id) return false;
+            $sql = "UPDATE servicos SET nome = :nome, descricao = :descricao, descontinuado = :descontinuado WHERE id = :id";
+            $cmd = $this->pdo->prepare($sql);
+            $cmd->bindValue(":nome", $this->nome);
     $cmd->bindValue(":descricao", $this->descricao);
-    $cmd->bindValue(":descontinuado", $this->descontinuado);
+    $cmd->bindValue(":preco", $this->preco);
+    $cmd->bindValue(":id", $this->id);
         return $cmd->execute();
 }
 
@@ -106,13 +120,13 @@ public function listar(): array
 
 public function listarAtivos(): array
 {
-    $cmd = obterPdo()->query("SELECT * FROM servicos ORDER BY descontinuado desc");
+    $cmd = obterPdo()->query("SELECT * FROM servicos WHERE descontinuado = 0");
     return $cmd->fetchAll(PDO::FETCH_ASSOC);    
-}
-
-// Buscar por ID
-public function buscarAtivos(int $id): bool
-{
+    }
+    
+    // Buscar por ID
+    public function buscarAtivos(int $id): bool
+    {
     $sql = "SELECT * FROM servicos WHERE id = :id";
     $cmd = obterPdo()->prepare($sql);
     $cmd->bindValue(":id",$id);
@@ -124,10 +138,19 @@ public function buscarAtivos(int $id): bool
     $this->setDescricao($cmd['descricao']);
     $this->setDescontinuado($cmd['descontinuado']);
         return true;
+        }
+        return false;
+        }
+        
+    public function excluir(int $id): bool
+    {
+        $sql = "UPDAE servicOs SET descontinuado = 1 WHERE id - :id";
+        $cmd = obterPdo()->prepare($sql);
+        $cmd->bindValue(":id",$id);
+        return $cmd->execute();
     }
-    return false;
-}
 
+    }
 // EXCLUIR
 // Pendente
 
@@ -148,5 +171,5 @@ buscarPorId(int $id): bool
 excluir(int $id): bool (pode ser exclusão lógica usando descontinuado)
 */
 
-}
+
 ?>
