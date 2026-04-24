@@ -32,8 +32,13 @@ endereco
     private $data_resposta;
     private $resposta_admin;
     private $endereco;
-
+    private $pdo;
 // ======================================================================================
+
+public function __construct()
+{
+    $this->pdo = obterPdo();
+}
 
 public function getId()
 {
@@ -120,7 +125,7 @@ public function getEndereco()
 {
     return $this->endereco;
 }
-public function set(int $endereco)
+public function setEndereco(int $endereco)
 {
     $this->endereco=$endereco;
 }
@@ -151,20 +156,19 @@ endereco
 
 public function inserir(): bool
 {
-    $sql = "INSERT solicitacoes (cliente_id, descricao_problema, data_preferida, status, data_cad
-    data_atualizacao, data_resposta, resposta_admin, endereco) VALUES (:cliente_id, :descricao_problema, :data_preferida, :status, :data_cad
-    :data_atualizacao, :data_resposta, :resposta_admin, :endereco)";
+    $sql = "INSERT INTO solicitacoes (cliente_id, descricao_problema, data_preferida, endereco) 
+    VALUES (:cliente_id, :descricao_problema, :data_preferida, :endereco, 0, NOW())";
     $cmd = $this->pdo->prepare($sql);
     // $cmd->bindValue("", $this->);
-    $cmd->bindValue("cliente_id", $this->cliente_id);
-    $cmd->bindValue("descricao_problema", $this->descricao_problema);
-    $cmd->bindValue("data_preferida", $this->data_preferida);
-    $cmd->bindValue("status", $this->status);
-    $cmd->bindValue("data_cad", $this->data_cad);
-    $cmd->bindValue("data_atualizacao", $this->data_atualizacao);
-    $cmd->bindValue("data_resposta", $this->data_resposta);
-    $cmd->bindValue("resposta_admin", $this->resposta_admin);
-    $cmd->bindValue("endereco", $this->endereco);   
+    $cmd->bindValue(":cliente_id", $this->cliente_id);
+    $cmd->bindValue(":descricao_problema", $this->descricao_problema);
+    $cmd->bindValue(":data_preferida", $this->data_preferida);
+    // $cmd->bindValue("status", $this->status);
+    // $cmd->bindValue("data_cad", $this->data_cad);
+    // $cmd->bindValue("data_atualizacao", $this->data_atualizacao);
+    // $cmd->bindValue("data_resposta", $this->data_resposta);
+    // $cmd->bindValue("resposta_admin", $this->resposta_admin);
+    $cmd->bindValue(":endereco", $this->endereco);   
     if ($cmd->execute()){
         $this->id =$this->pdo->lastInsertId();
         return true;
@@ -185,16 +189,46 @@ public static function listar(): array
 // Método LISTARCLIENTE
 public static function listarPorCliente(int $cliente_id): array
 {
-    $cmd = obterPdo()->query("SELECT * FROM cliente ORDER BY  desc");
+    $cmd = obterPdo()->query("SELECT * FROM solicitacoes WHERE cliente_id =:id");
+    $cmd->bindValue(":id", $cliente_id);
+    $cmd->execute();
     return $cmd->fetchALL(PDO::FETCH_ASSOC);
 }
 
+// Buscar por ID
+    public function bucarPorId(int $id):bool
+    {
+        $sql = "SELECT * FROM solicitacoes WHERE id=:id";
+        $cmd = obterPdo()->prepare($sql);
+        $cmd->bindValue(":id",$id);
+        $cmd->execute();
+        if($cmd->rowCount()>0){
+            $dados = $cmd->fetch(PDO::FETCH_ASSOC);
+            $this->setId($dados['id']);
+            return true;
+    }
+        return false;
+    }
 
+    public function responder (string $resposta_admin, int $status): bool
+    {
+        $cmd = obterPdo()->query("UPDATE solicitacoes SET resposta_admin = :resp, status = :status, data_resposta = NOW()");
+        $cmd -> bindValue(":resp",$resposta_admin);
+        $cmd -> bindValue(":status", $status);
+        $cmd -> bindValue(":id", $this->id); 
+    
+    return $cmd->execute();
+    }
 
+    public function atualizarStatus(int $status): bool
+    {
+        $sql = "UPDATE solicitacoes SET status = :status WHERE id = :id";
+        $cmd = obterPdo()->prepare($sql);
+        $cmd->bindValue(":status", $status);
+        $cmd->bindValue(":id", $this->id);
 
- }
+        return $cmd->execute();
+    }
 
-
-
-
-?>
+    }
+    ?>
