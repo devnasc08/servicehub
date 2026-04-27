@@ -132,7 +132,7 @@ public function inserir(): bool
 // Método LISTAR
 public static function listar(): array
 {
-    $cmd = obterPdo()->query("SELECT * FROM clientes ODER BY id desc");
+    $cmd = obterPdo()->query("SELECT * FROM clientes ORDER BY id desc");
     return $cmd->fetchALL(PDO::FETCH_ASSOC);
 }
 

@@ -43,15 +43,10 @@ error_reporting(E_ALL);
 //      echo "ID: ".$cliente->getId()."<br>Telefone: ".$cliente->getTelefone(). "<br> CPF: " . $cliente->getCpf() . "<hr>";
 //  }else{
 //      echo "Cliente não encontrado.";
- 
- 
-//    }
+//  }
+
+// ============================================================================================================================
 
 
 
-$cliente = new Cliente();
-$cliente->buscarPorId(1);
-
-
-
-?>
+ ?>
