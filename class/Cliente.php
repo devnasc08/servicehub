@@ -54,10 +54,6 @@ GET -> RETORNA o valor
         return $this->id; 
     }
 
-        public function setId(int $id)
-        {
-            $this->id =$id;
-        }
 
     // usuario_id
     public function getUsuario_id()
@@ -108,11 +104,11 @@ public function inserir(): bool
 {
     $sql = "INSERT clientes (usuario_id, telefone, cpf) VALUES (:usuario_id, :telefone, :cpf)";
     $cmd = $this->pdo->prepare($sql);
-    $cmd->bindValue(":usuario_id", $this->usuario_id);
+    $cmd->bindValue(":usuario_id", $this->usuario_id, PDO::PARAM_INT);
     $cmd->bindValue(":telefone", $this->telefone);
     $cmd->bindValue(":cpf", $this->cpf);    
     if ($cmd->execute()){
-        $this->id =$this->pdo->lastInsertId();
+        $this->id = $this->pdo->lastInsertId();
         return true;
     }
     return false;
@@ -121,9 +117,9 @@ public function inserir(): bool
 // Método ATUALIZAR
     public function atualizar():bool{
         if (!$this->id) return false;
-        $sql = "UPDATE clientes SET usuario_id = :usuario_id, telefone = :telefone, cpf = :cpf, ";
+        $sql = "UPDATE clientes SET telefone = :telefone, cpf = :cpf WHERE id = :id";
         $cmd = $this->pdo->prepare($sql);
-        $cmd->bindValue("usuario_id", $this->usuario_id);
+        $cmd->bindValue("usuario_id", $this->usuario_id, PDO::PARAM_INT);
         $cmd->bindValue("telefone", $this->telefone);
         $cmd->bindValue("cpf", $this->cpf);
         return $cmd->execute();
@@ -144,11 +140,11 @@ public function buscarPorId(int $id): bool
     $cmd->bindValue(":id",$id);
     $cmd->execute();
     if($cmd->rowCount()>0){
-    $cmd->fetch(PDO::FETCH_ASSOC);
-    $this->setId($cmd['id']);
-    $this->setUsuario_id($cmd['usuario_id']);
-    $this->setTelefone($cmd['telefone']);
-    $this->setCpf($cmd['cpf']);
+    $dados = $cmd->fetch(PDO::FETCH_ASSOC);
+    $this->id = $dados["id"];
+    $this->usuario_id = $dados["usuario_id"];
+    $this->telefone = $dados["telefone"];
+    $this->cpf = $ $dados["cpf"];
     return true;
     }
     return false;
@@ -162,11 +158,11 @@ public function buscarPorUsuario(int $usuario_id): bool
     $cmd->bindValue(":usuario_id",$usuario_id);
     $cmd->execute();
     if($cmd->rowCount()>0){
-    $cmd->fetch(PDO::FETCH_ASSOC);
-    $this->setId($cmd['id']);
-    $this->setUsuario_id($cmd['usuario_id']);
-    $this->setTelefone($cmd['telefone']);
-    $this->setCpf($cmd['cpf']);
+    $dados = $cmd->fetch(PDO::FETCH_ASSOC);
+    $this->id = $dados["id"];
+    $this->usuario_id = $dados["usuario_id"];
+    $this->telefone = $dados["telefone"];
+    $this->cpf = $dados["cpf"];
     return true;
         }
     return false;
