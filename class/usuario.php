@@ -43,11 +43,6 @@ class Usuario
         return $this->id;
     }
 
-        public function setId(int $id)
-    {
-        $this->id = $id;
-    }
-
     //Nome
     public function getNome()
     {
@@ -185,9 +180,9 @@ class Usuario
         $cmd->execute();
         if($cmd->rowCount()>0){
             $dados = $cmd->fetch(PDO::FETCH_ASSOC);
-        $this->setId($dados['id']);
-        $this->setNome($dados['nome']);
-        $this->setEmail($dados['email']);
+        $this->id = $dados["id"];
+        $this->setNome($dados ['nome']);
+        $this->setEmail($dados["email"]);
         $this->setSenha($dados['senha']);
         $this->setTipo($dados['tipo']);
         $this->setAtivo($dados['ativo']);
