@@ -33,6 +33,7 @@ class Cliente
     private $telefone;
     private $cpf;
     private $pdo;
+    
     public function __construct()
     {
         $this->pdo = obterPdo();
