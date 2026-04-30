@@ -35,7 +35,7 @@ GROUP BY s.id, s.status, s.data_cad
 // prepare a consulta
 $cmd = obterPdo()->prepare($sql);
 // execute 
-$cmd->execute([$cliente["id"]]);
+      $cmd->execute([$cliente->getId()]);
 // buscas todas as solicitações  encontradas no banco
 $solicitacoes = $cmd->fetchALL(PDO::FETCH_ASSOC);
 
@@ -43,6 +43,7 @@ $solicitacoes = $cmd->fetchALL(PDO::FETCH_ASSOC);
 include "includes/header.php";
 include "includes/menu.php";
 ?>
+
 
 <main class="container mt-5">
   <h2>Bem-vindo, <strong><?= $_SESSION['nome'] ?></strong></h2>
@@ -59,35 +60,36 @@ include "includes/menu.php";
         <th>Ação</th>
       </tr>
     </thead>
+    
+    
+    
     <tbody>
-      <td><?= $s["id"] ?></td>
-      <?php foreach ($solicitacoes as $s);
-      $lista = explode(",", $s["servicos"]);
-      foreach ($lista as $nomeservico) : {
-        echo '<span class="badge bg-primary me-1 mb-1">' . 
-        htmlspecialchars($nomeservico) . '</span>';
-      }
-      ?>
-
-          </td>
-            <!-- Exibe o status em formato de texto usando função -->
-              <?php statusTexto($s['status'])?>
-            <td>
-            <!-- Formata data para o padrão brasileiro -->
-              <?= date("d/m/Y H:i", strtotime($s["data_cad"])) ?>
-          </td>
-
+    <!-- Percorre todas as solicitações retornadas do banco -->
+     <?php foreach($solicitacoes as $s): ?>
+      <tr>
+        <!-- Exibe o Id da Solicitaão -->
+          <td><?= $s["id"] ?></td>
+         
           <td>
-          <!-- Link para ver os detalhes da solicitação -->
-            <a href="cliente_detalhes.php?id=<?= $s["id"]?>"
+            <?php 
+            // Divide a lista de serviços em um array
+            $lista = explode(",", $s["servicos"]);
+            // Percorre cada serviço da solicitação
+            foreach ($lista as $nomeServico) {
+              // html especial chars evita a execução de código HTML/JS malicioso
+              echo '<sapn class="badge bd-primary me-1 mb-1>' . htmlspecialchars($nomeServico) . '</span>';
+            }
+            ?>
           </td>
-
           <td>
-            <a href="cliente_detalhes.php?id=" class="btn btn-primary btn-sm">Detalhes</a>
+          <!-- Exibe o status do cliente em formato do texto usando função -->
+           <?= statusTexto($s["status"]) ?> 
+          </td>
+          <td>  <!-- Link para ver os detalhes da solicitação -->
+            <a href="cliente_detalhes.php?id=<?= $s['id']; ?>" class="btn btn-primary btn-sm">Detalhes</a>
           </td>
         </tr>
-        <?php endforeach;?>
-    </tbody>
+      <?php endforeach;?>
+      </tbody>
   </table>
-<?php include "includes/footer.php"?>
 </main>
