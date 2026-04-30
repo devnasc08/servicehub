@@ -74,5 +74,4 @@ return $cmd->fetchAll(PDO::FETCH_ASSOC);
 
 
 }
-
 ?>

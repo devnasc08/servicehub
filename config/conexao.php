@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 
 function obterPdo():PDO{
 
-$host = "10.91.47.129"; //IP Server
+$host = "10.91.47.120"; //IP Server
 $db = "servicehubdb01"; //Nome DB
 $user = "root";         //Usuário
 $pass = "202720";     //Senha

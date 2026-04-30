@@ -118,7 +118,7 @@ public function listar(): array
     return $cmd->fetchAll(PDO::FETCH_ASSOC);    
 }
 
-public function listarAtivos(): array
+public static function listarAtivos(): array
 {
     $cmd = obterPdo()->query("SELECT * FROM servicos WHERE descontinuado = 0");
     return $cmd->fetchAll(PDO::FETCH_ASSOC);    
@@ -132,11 +132,11 @@ public function listarAtivos(): array
     $cmd->bindValue(":id",$id);
     $cmd->execute();
     if($cmd->rowCount()>0){
-        $cmd->fetch(PDO::FETCH_ASSOC);
-    $this->setId($cmd['id']);
-    $this->setNome($cmd['nome']);
-    $this->setDescricao($cmd['descricao']);
-    $this->setDescontinuado($cmd['descontinuado']);
+      $dados = $cmd->fetch(PDO::FETCH_ASSOC);
+    $this->setId($dados['id']);
+    $this->setNome($dados['nome']);
+    $this->setDescricao($dados['descricao']);
+    $this->setDescontinuado($dados['descontinuado']);
         return true;
         }
         return false;

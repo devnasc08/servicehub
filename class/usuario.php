@@ -43,11 +43,6 @@ class Usuario
         return $this->id;
     }
 
-        public function setId(int $id)
-    {
-        $this->id = $id;
-    }
-
     //Nome
     public function getNome()
     {
@@ -185,9 +180,31 @@ class Usuario
         $cmd->execute();
         if($cmd->rowCount()>0){
             $dados = $cmd->fetch(PDO::FETCH_ASSOC);
-        $this->setId($dados['id']);
-        $this->setNome($dados['nome']);
-        $this->setEmail($dados['email']);
+        $this->id = $dados["id"];
+        $this->setNome($dados ['nome']);
+        $this->setEmail($dados["email"]);
+        $this->setSenha($dados['senha']);
+        $this->setTipo($dados['tipo']);
+        $this->setAtivo($dados['ativo']);
+        $this->primeiro_login = $dados['primeiro_login'];
+            return true;
+    
+    }
+        return false;
+    }
+
+    //Buscar por Email
+        public function buscarPorEmail(string $email):bool
+    {
+        $sql = "SELECT * FROM usuarios WHERE email=:email";
+        $cmd = obterPdo()->prepare($sql);
+        $cmd->bindValue(":email",$email);
+        $cmd->execute();
+        if($cmd->rowCount()>0){
+            $dados = $cmd->fetch(PDO::FETCH_ASSOC);
+        $this->id = $dados["id"];
+        $this->setNome($dados ['nome']);
+        $this->setEmail($dados["email"]);
         $this->setSenha($dados['senha']);
         $this->setTipo($dados['tipo']);
         $this->setAtivo($dados['ativo']);

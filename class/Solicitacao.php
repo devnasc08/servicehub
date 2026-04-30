@@ -43,7 +43,7 @@ public function __construct()
 public function getId()
 {
     return $this->id;
-}
+}   
 public function setId(int $id)
 {
     $this->id=$id;
@@ -130,7 +130,6 @@ public function setEndereco(int $endereco)
     $this->endereco=$endereco;
 }
 
-// PDO pendente
 
 /*
 inserir(): bool
@@ -170,7 +169,7 @@ public function inserir(): bool
     // $cmd->bindValue("resposta_admin", $this->resposta_admin);
     $cmd->bindValue(":endereco", $this->endereco);   
     if ($cmd->execute()){
-        $this->id =$this->pdo->lastInsertId();
+        $this->id=$this->pdo->lastInsertId();
         return true;
     }
     return false;
